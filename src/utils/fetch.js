@@ -29,7 +29,7 @@ export function getData(url, successCallback, errorCallback, method = "GET", isA
   };
   fetch(url, {
     method: method,
-    headers: isAuth ? headerAuth : headerUnauth,
+    headers: isAuth ? headerAuth : headerUnauth
   })
     .then(response => {
       response.json().then(responseJson => {
@@ -39,6 +39,62 @@ export function getData(url, successCallback, errorCallback, method = "GET", isA
     })
     .catch(error => {
       console.log("error getData Utils: ", error);
+      errorCallback(error);
+    });
+}
+
+export function postData(url, body, successCallback, errorCallback, isAuth = false, method = "POST") {
+  let token = getUserInfo();
+  let headerAuth = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Token " + token
+  };
+  let headerUnauth = {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  };
+  fetch(url, {
+    method: method,
+    headers: isAuth ? headerAuth : headerUnauth,
+    body: JSON.stringify(body)
+  })
+    .then(response => {
+      response.json().then(responseJson => {
+        console.log("success PostData Utils: ", responseJson);
+        successCallback(responseJson);
+      });
+    })
+    .catch(error => {
+      console.log("error PostData Utils: ", error);
+      errorCallback(error);
+    });
+}
+
+export function putData(url, body, successCallback, errorCallback, isAuth = false, method = "PUT") {
+  let token = getUserInfo();
+  let headerAuth = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Token " + token
+  };
+  let headerUnauth = {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  };
+  fetch(url, {
+    method: method,
+    headers: isAuth ? headerAuth : headerUnauth,
+    body: JSON.stringify(body)
+  })
+    .then(response => {
+      response.json().then(responseJson => {
+        console.log("success PotData Utils: ", responseJson);
+        successCallback(responseJson);
+      });
+    })
+    .catch(error => {
+      console.log("error PotData Utils: ", error);
       errorCallback(error);
     });
 }
